@@ -15,14 +15,14 @@ class TagController extends Controller
         ]);
     }
 
-    public function store (){
+    public function store (Request $request){
         $valid = validator::make($request->all(),[
             'tag'=>'required',
             'id'=>'required'
         ]);
         if($valid->fails()){
             return response()->json($valid->errors(),400);
-        }
+        }   
         $tag = Tag::create($request->all());
         return response()->json([
            'new tag'=> $tag,
@@ -60,10 +60,10 @@ class TagController extends Controller
     }
 
     public function show ($id){
-        $user = User::find($id);
-    return response()->json(
-        $tag
-    ,200);
+        $note = Tag::find($id);
+        return response()->json(
+           $note
+           ,200);
     }
 
     
