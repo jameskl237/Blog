@@ -76,7 +76,7 @@ class PostController extends Controller
 
   public function postAndTag($id){
    $post = Post::find($id);
-    $Post->tags = Tag::where('post_id',$id)->get();
+    $post->tags = Tag::where('post_id',$id)->get();
     return response()->json([
         $post
     ]);
