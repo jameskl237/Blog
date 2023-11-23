@@ -19,6 +19,7 @@ class PostFactory extends Factory
         return [
             'title'=>$this->faker->words(rand(5,10),true),
             'description'=>$this->faker->text(15),
+            'image'=>$this->faker->text(8),
             'user_id'=>$this->faker->randomDigitNotNull
         ];
     }

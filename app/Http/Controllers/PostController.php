@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PostRequest;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\Tag;
@@ -9,7 +10,7 @@ use Illuminate\Support\Facades\Validator;
 
 class PostController extends Controller
 {
-    public function index()
+    public function index_api()
     {
         $arr = Post::get();
         return response()->json([
@@ -17,11 +18,17 @@ class PostController extends Controller
         ]);
     }
 
-    public function store(Request $request)
+    public function index()
+    {
+        $arr = Post::all();
+        return view('Blog.welcome', compact('arr'));
+    }
+
+    public function store_api(Request $request)
     {
         $validated = validator::make($request->all(),[
             'title'=>'required',
-            
+
         ]);
 
         if($validated->fails()){
@@ -35,7 +42,36 @@ class PostController extends Controller
         ],201);
     }
 
-    public function update(Request $request,$id){
+    public function store(Request $request)
+    {
+        try{
+            if(
+                empty($request->input('title'))
+            ){
+                return redirect()->back()->with('message','Remplissez ce champ');
+            }
+            $post = new Post();
+            $post->title = $request->title;
+            $post->user_id = 1;
+            $post->description = $request->description ? $request->description : null;
+            if ($request->hasFile('image')) {
+                $image = $request->file('image');
+                $imageName = time() . '.' . $image->getClientOriginalExtension();
+                $image->move(public_path('blog'), $imageName);
+                $post->image = $imageName;
+            }
+            $post->save();
+            return redirect()->back()->with('message','');
+
+        }catch (\Exception $e) {
+            // toastr()->error('Message', 'Une Erreur c\'est produite');
+            dd($e->getMessage());
+            return redirect()->back()->with('message','Une erreur produite');
+        }
+
+    }
+
+    public function update_api(Request $request,$id){
 
         $post = Post::find($id);
         if (is_null($post)) {
@@ -50,8 +86,8 @@ class PostController extends Controller
         ],200);
     }
 
-    public function destroy($id){
-        
+    public function destroy_api($id){
+
         $post = Post::find($id);
         if (is_null($post)) {
             return response()->json([
@@ -66,7 +102,7 @@ class PostController extends Controller
          ]);
   }
 
-  public function show( $id){
+  public function show_api( $id){
     $post = Post::find($id);
     return response()->json(
         $post

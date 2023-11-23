@@ -22,31 +22,31 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::prefix('post')->group(function(){
-    Route::get('',[PostController::class,'index']);
-    Route::post('',[PostController::class,'store']);
-    Route::put('/{id}',[PostController::class,'update']);
-    Route::delete('/{id}',[PostController::class,'destroy']);
-    Route::get('/{id}',[PostController::class,'show']);
+Route::prefix('post')->controller(PostController::class)->group(function(){
+    Route::get('','index');
+    Route::post('', 'store');
+    Route::put('/{id}','update');
+    Route::delete('/{id}','destroy');
+    Route::get('/{id}','show');
 });
 
-Route::prefix('tag')->group(function(){
-    Route::get('',[TagController::class,'index']);
-    Route::post('',[TagController::class,'store']);
-    Route::put('/{id}',[TagController::class,'update']);
-    Route::delete('/{id}',[TagController::class,'destroy']);
-    Route::get('/{id}',[TagController::class,'show']);
+Route::prefix('tag')->controller(TagController::class)->group(function(){
+    Route::get('','index');
+    Route::post('','store');
+    Route::put('/{id}','update');
+    Route::delete('/{id}','destroy');
+    Route::get('/{id}','show');
 });
 
 Route::get('post_tag/{id}',[PostController::class,'postAndTag']);
 Route::get('post_tag',[PostController::class,'post_AndTag']);
 
-Route::prefix('user')->group(function(){
-    Route::get('',[UserController::class,'index']);
-    Route::post('',[UserController::class,'store']);
-    Route::put('/{id}',[UserController::class,'update']);
-    Route::delete('/{id}',[UserController::class,'destroy']);
-    Route::get('/{id}',[UserController::class,'show']);
+Route::prefix('user')->controller(UserController::class)->group(function(){
+    Route::get('','index');
+    Route::post('','store');
+    Route::put('/{id}','update');
+    Route::delete('/{id}','destroy');
+    Route::get('/{id}','show');
 });
 
 Route::get('user_post/{id}',[UserController::class,'userAndpost']);
