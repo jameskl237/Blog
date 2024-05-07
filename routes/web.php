@@ -20,4 +20,6 @@ use Illuminate\Support\Facades\Route;
 Route::resource('post', postController::class);
 
 Route::get('/',[PostController::class,'index'])->name('home');
+Route::post('/search',[PostController::class,'search'])->name('search');
+
 

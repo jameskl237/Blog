@@ -22,7 +22,7 @@ class UserController extends Controller
     {
         $validated = validator::make($request->all(),[
             'name'=>'required',
-            
+
         ]);
 
         if($validated->fails()){
@@ -38,7 +38,7 @@ class UserController extends Controller
 
     public function update(Request $request,$id){
 
-        $post = User::find($id);
+        $user = User::find($id);
         if (is_null($user)) {
             return response()->json([
                 'message'=>'post not found'
@@ -52,7 +52,7 @@ class UserController extends Controller
     }
 
     public function destroy($id){
-        
+
         $user = User::find($id);
         if (is_null($user)) {
             return response()->json([
@@ -88,7 +88,7 @@ class UserController extends Controller
         foreach ($arr as $key => $value) {
             $value->posts = Post::where('user_id',$value->id)->get();
             foreach ($tab as $key => $value->post) {
-                
+
             }
             $value->posts->tags = Tag::where('post_id',$value->posts->id)->get();
         }

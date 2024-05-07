@@ -20,7 +20,7 @@ class PostController extends Controller
 
     public function index()
     {
-        $arr = Post::all();
+        $arr = Post::orderBy('created_at', 'desc')->get();
         return view('Blog.welcome', compact('arr'));
     }
 
@@ -129,4 +129,10 @@ class PostController extends Controller
         ]);
   }
 
+  public function search(Request $request){
+
+    $query = $request->query;
+    $posts = Post::where('title','like','%'.$query.'%')->get();
+    return response()->json($posts);
+  }
 }
